@@ -1,0 +1,9 @@
+.button {
+  background-color: var(--main-color);
+  border: none;
+  border-radius: var(--border-radius-main);
+  color: var(--secondary-color);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1em;
+}
