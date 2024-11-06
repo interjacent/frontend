@@ -1,6 +1,13 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
 body {
   --main-color: #ff9500;
+  --main-color-darken: #e6953c;
   --secondary-color: #ffffff;
+  --dark-color: #000000;
   --border-radius-main: 25px;
   --border-radius-secondary: 10px;
   --border-size: 5px;
@@ -8,7 +15,6 @@ body {
   --font-size-smaller: 20px;
   --font-size-big: 48px;
   --font-size-biggest: 72px;
-  margin: 0;
 
   font-family: "Hachi Maru Pop", cursive;
   font-weight: 400;

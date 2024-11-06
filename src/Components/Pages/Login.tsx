@@ -1,24 +1,37 @@
-import React, {useState} from "react";
-import './Login.css';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEventHandler,
+  useState,
+} from "react";
+import "./Login.css";
+import { Input } from "../Input/Input";
+import { Button } from "../Button/Button";
 
 export const Login = () => {
   const [name, setName] = useState<string>("");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setName(event.target.value);
   };
 
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log(name);
+  };
+
   return (
-    <div className="login-container">
-      <label className="container-label" htmlFor="name">Меня зовут</label>
-      <input
-        type="text"
-        id="name"
+    <form className="login-container" onSubmit={handleSubmit}>
+      <label className="container-label" htmlFor="name">
+        Меня зовут
+      </label>
+      <Input
+        placeholder="Ваше имя"
         className="login-input"
         value={name}
         onChange={handleChange}
       />
-      <button className="login-button" onClick={() => console.log(name)}>Войти</button>
-    </div>
-  )
-}
+      <Button className="login-button">Войти</Button>
+    </form>
+  );
+};

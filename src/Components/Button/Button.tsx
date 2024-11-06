@@ -3,10 +3,14 @@ import "./Button.css";
 
 type Props = PropsWithChildren<{
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  className?: string;
 }>;
 
 export const Button = (props: Props) => (
-  <button className="button" onClick={props.onClick}>
+  <button
+    className={"button " + (props.className ?? "")}
+    onClick={props.onClick}
+  >
     {props.children}
   </button>
 );

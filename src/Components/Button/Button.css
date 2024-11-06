@@ -6,4 +6,9 @@
   font-family: inherit;
   font-size: inherit;
   padding: 1em;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--main-color-darken);
 }

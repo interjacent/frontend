@@ -6,6 +6,7 @@ type Props = {
   defaultValue?: string | number | readonly string[];
   placeholder?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  className?: string;
 };
 
 export const Input = (props: Props) => (
@@ -14,6 +15,6 @@ export const Input = (props: Props) => (
     defaultValue={props.defaultValue}
     placeholder={props.placeholder}
     onChange={props.onChange}
-    className="input"
+    className={"input " + (props.className ?? "")}
   />
 );
