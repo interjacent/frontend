@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import "./Admin.css";
 
 export const Admin = () => {
+    const from = useState("01");
+    const to = useState("30");
   const users = ["Фырфырчик", "Пырпырчик", "Мявка", "Пырчик"];
   return (
     <div className="admin-page">
@@ -22,7 +25,7 @@ export const Admin = () => {
         </div>
         <div className="right">
           <div>
-            Я хочу организовать встречу на <input />:<input />
+            Я хочу организовать встречу на <input defaultValue={"01"} />:<input defaultValue={"30"} />
           </div>
           <Button>Организовать</Button>
           <div>
