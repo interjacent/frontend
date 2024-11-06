@@ -1,35 +1,32 @@
-import {PropsWithChildren} from "react";
-import {Modal} from "react-bootstrap";
+import { PropsWithChildren } from "react";
 import "./TimeChooseModal.css";
-import {Button} from "../Button/Button";
+import { Button } from "../Button/Button";
 
 export interface Interval {
-  startTime: string,
-  endTime: string
+  dayOfWeek: string;
+  startTime: string;
+  endTime: string;
 }
 
 type Props = PropsWithChildren<{
-  intervals: Interval[],
+  intervals: Interval[];
   show: boolean;
 }>;
 
 export const TimeChooseModal = (props: Props) => {
-
   return (
-    <Modal show={props.show}>
-      <Modal.Header closeButton>
-        <Modal.Title>Выберите удобное время:</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+    <div className={"modal " + (props.show ? "" : "hidden")}>
+      <div className="modal-header">Выберите удобное время:</div>
+      <div className="modal-body">
         <div className="intervals-container">
           {props.intervals.map((interval, index) => (
             <div key={index} className="interval-box">
-              {interval.startTime} - {interval.endTime}
+              {interval.dayOfWeek} {interval.startTime} - {interval.endTime}
               <Button>Выбрать</Button>
             </div>
           ))}
         </div>
-      </Modal.Body>
-    </Modal>
-  )
-}
+      </div>
+    </div>
+  );
+};
