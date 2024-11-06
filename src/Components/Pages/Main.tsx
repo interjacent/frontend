@@ -2,8 +2,10 @@ import { ChangeEvent, useState } from "react";
 import { Checkbox } from "../Checkbox/Checkbox";
 import "./Main.css";
 import { Button } from "../Button/Button";
+import { useNavigate } from "react-router";
 
 export const Main = () => {
+  const navigate = useNavigate();
   const [days, setDays] = useState([
     false,
     false,
@@ -24,7 +26,9 @@ export const Main = () => {
 
   const handleSubmit = () => {
     console.log(fromPart1, fromPart2, toPart1, toPart2, days);
-  }
+    const poll_id = "a123b123123";
+    navigate(`/c/${poll_id}`);
+  };
 
   return (
     <div className="container-center">
