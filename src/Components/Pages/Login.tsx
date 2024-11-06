@@ -1,9 +1,4 @@
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEventHandler,
-  useState,
-} from "react";
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import "./Login.css";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
