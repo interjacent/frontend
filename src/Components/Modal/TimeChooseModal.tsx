@@ -2,14 +2,10 @@ import {PropsWithChildren} from "react";
 import {Modal} from "react-bootstrap";
 import "./TimeChooseModal.css";
 import {Button} from "../Button/Button";
-
-export interface Interval {
-  startTime: string,
-  endTime: string
-}
+import {TimeInterval} from "../Time/TimeInterval";
 
 type Props = PropsWithChildren<{
-  intervals: Interval[],
+  intervals: TimeInterval[],
   show: boolean;
 }>;
 
