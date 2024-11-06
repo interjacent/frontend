@@ -1,3 +1,3 @@
-import { Button } from "../Button/Button";
+import { Input } from "../Input/Input";
 
-export const Main = () => <h1>Interjacent project <Button>Привет мир</Button></h1>;
+export const Main = () => <h1>Interjacent project <Input placeholder="Фырфырчик" /></h1>;

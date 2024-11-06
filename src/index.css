@@ -3,6 +3,7 @@ body {
   --secondary-color: #ffffff;
   --border-radius-main: 25px;
   --border-radius-secondary: 10px;
+  --border-size: 5px;
   --font-size-normal: 24px;
   --font-size-smaller: 20px;
   --font-size-big: 48px;
