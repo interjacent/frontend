@@ -1,0 +1,17 @@
+.main-page {
+  width: 520px;
+  max-width: 100%;
+  font-size: var(--font-size-normal);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.logo {
+  font-size: var(--font-size-biggest);
+}
+
+.checkboxes {
+  font-size: var(--font-size-smaller);
+}
