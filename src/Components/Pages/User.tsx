@@ -1,7 +1,7 @@
 import { Final } from "./Final";
 import { Login } from "./Login";
 import { Button } from "../Button/Button";
-import { CustomDropdown } from "../Dropdown/Dropdown";
+import { Dropdown } from "../Dropdown/Dropdown";
 import "./User.css";
 
 export const User = () => {
@@ -19,13 +19,13 @@ export const User = () => {
   }
 
   return (
-    <div className="user-component">
+    <div className="user-component text-center">
       <h1 className="username">Фырфырчик #a1b24c</h1>
 
       <div className="choose-text">
         <div className="text-line">
           В{" "}
-          <CustomDropdown
+          <Dropdown
             initialState="пн"
             dropdownItems={daysOfWeek}
           />{" "}

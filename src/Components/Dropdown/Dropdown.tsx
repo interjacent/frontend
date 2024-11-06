@@ -8,7 +8,7 @@ type Props = {
   className?: string;
 };
 
-export const CustomDropdown = (props: Props) => {
+export const Dropdown = (props: Props) => {
   const [selectedItem, setSelectedItem] = useState<string>(props.initialState);
   const [open, setOpen] = useState(false);
 
