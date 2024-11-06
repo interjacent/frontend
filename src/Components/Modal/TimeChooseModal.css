@@ -1,24 +1,39 @@
 .modal {
-    font-family: 'Hachi Maru Pop';
-    color: var(--main-color) !important;
-    border: none !important;
+  font-family: "Hachi Maru Pop";
+  border: var(--border-size) solid var(--main-color);
+  border-radius: var(--border-radius-main);
+  width: max-content;
+  max-width: 100%;
+  padding: 1em;
+  background-color: var(--secondary-color);
+
+  position: fixed;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: var(--font-size-normal);
+}
+
+.modal-header {
+    margin-bottom: 1em;
 }
 
 .intervals-container {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .interval-box {
-    padding: 10px;
-    border: 2px solid #ff9500;
-    border-radius: var(--border-radius-secondary);
-    color: #333;
-    min-width: 225px;
-    min-height: 150px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+  padding: 10px;
+  border: 2px solid #ff9500;
+  border-radius: var(--border-radius-secondary);
+  color: #333;
+  min-width: 225px;
+  min-height: 150px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
