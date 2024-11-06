@@ -1,33 +1,28 @@
-.user-component {
-    font-family: 'Hachi Maru Pop' !important;
-    color: var(--main-color);
-    text-align: center;
-}
-
 .username {
-    margin-top: 50px;
+  margin: 0;
+  padding-top: 50px;
 }
 
 .choose-text {
-    margin: 70px 0;
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
+  margin: 70px 0;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
 }
 
 .time-input {
-    color: var(--main-color) !important;
-    background-color: white !important;
-    border: none !important;
+  color: var(--main-color) !important;
+  background-color: white !important;
+  border: none !important;
 }
 
 .text-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
-    background: none;
+  background: none;
 }

@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
 }
@@ -28,4 +30,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.text-active {
+  color: var(--main-color);
+}
+
+.text-biggest {
+  font-size: var(--font-size-biggest);
+}
+
+.text-center {
+  text-align: center;
 }
