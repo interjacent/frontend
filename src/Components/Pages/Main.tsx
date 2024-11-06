@@ -3,6 +3,15 @@ import { Checkbox } from "../Checkbox/Checkbox";
 import "./Main.css";
 import { Button } from "../Button/Button";
 import { useNavigate } from "react-router";
+import {
+  addDays,
+  endOfDay,
+  getDay,
+  getUnixTime,
+  set,
+  startOfDay,
+} from "date-fns";
+import { createAxios } from "../../createAxios";
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -15,19 +24,48 @@ export const Main = () => {
     false,
     false,
   ]);
-  const [fromPart1, setFromPart1] = useState("08");
-  const [fromPart2, setFromPart2] = useState("00");
-
-  const [toPart1, setToPart1] = useState("23");
-  const [toPart2, setToPart2] = useState("00");
+  const [startTime, setStartTime] = useState("08:00");
+  const [endTime, setEndTime] = useState("23:00");
 
   const setDaysI = (i: number) => (e: ChangeEvent<HTMLInputElement>) =>
     setDays((days) => days.map((c, ci) => (ci === i ? e.target.checked : c)));
 
-  const handleSubmit = () => {
-    console.log(fromPart1, fromPart2, toPart1, toPart2, days);
-    const poll_id = "a123b123123";
-    navigate(`/c/${poll_id}`);
+  const handleSubmit = async () => {
+    let currentDayOfWeek = getDay(new Date()) - 1;
+    if (currentDayOfWeek < 0) currentDayOfWeek += 7;
+    const daysFrom = days
+      .slice(currentDayOfWeek)
+      .concat(days.slice(0, currentDayOfWeek));
+    const [startTimeHours, startTimeMinutes] = startTime.split(":").map(Number);
+    const [endTimeHours, endTimeMinutes] = endTime.split(":").map(Number);
+    const intervals = daysFrom.flatMap((day, i) => {
+      if (!day) return [];
+      return [
+        {
+          start: getUnixTime(
+            set(startOfDay(addDays(new Date(), i)), {
+              hours: startTimeHours,
+              minutes: startTimeMinutes,
+            })
+          ),
+          end: getUnixTime(
+            set(endOfDay(addDays(new Date(), i)), {
+              hours: endTimeHours,
+              minutes: endTimeMinutes,
+            })
+          ),
+        },
+      ];
+    });
+    console.log(intervals);
+    console.log(startTimeHours, endTime, days);
+
+    const axios = createAxios();
+    const response = await axios.post(`/polls`, {
+      days: intervals,
+    });
+    const { publicId, privateId } = response.data;
+    navigate(`/poll/${publicId}/${privateId}`);
   };
 
   return (
@@ -61,23 +99,15 @@ export const Main = () => {
         <div>
           с{" "}
           <input
-            defaultValue={"08"}
-            onChange={(e) => setFromPart1(e.target.value)}
-          />
-          :
-          <input
-            defaultValue={"00"}
-            onChange={(e) => setFromPart2(e.target.value)}
+            defaultValue={"08:00"}
+            onChange={(e) => setStartTime(e.target.value)}
+            type="time"
           />{" "}
           до{" "}
           <input
-            defaultValue={"23"}
-            onChange={(e) => setToPart1(e.target.value)}
-          />
-          :
-          <input
-            defaultValue={"00"}
-            onChange={(e) => setToPart2(e.target.value)}
+            defaultValue={"23:00"}
+            onChange={(e) => setEndTime(e.target.value)}
+            type="time"
           />
         </div>
         <Button onClick={handleSubmit}>Создать ссылку-опрос</Button>
