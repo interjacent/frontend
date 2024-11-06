@@ -10,8 +10,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/u/:id" element={<User />} />
-          <Route path="/c/:id" element={<Admin />} />
+          <Route path="/poll/:publicPollId" element={<User />} />
+          <Route path="/poll/:publicPollId/:privatePollId" element={<Admin />} />
           <Route path="/mvp" element={"Mococo Very Pretty"} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
