@@ -1,0 +1,20 @@
+.header {
+    font-size: var(--font-size-biggest);
+    text-align: center;
+}
+
+.panels {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}
+
+.left {
+    width: 30%;
+    max-width: 500px;
+}
+
+.left > * {
+    width: 100%;
+    box-sizing: border-box;
+}
