@@ -2,13 +2,7 @@ import { PropsWithChildren } from "react";
 import "./TimeChooseModal.css";
 import {Button} from "../Button/Button";
 import {TimeInterval} from "../Time/TimeInterval";
-import { Button } from "../Button/Button";
-
-export interface Interval {
-  dayOfWeek: string;
-  startTime: string;
-  endTime: string;
-}
+import {DayOfWeek} from "../Time/DayOfWeek";
 
 type Props = PropsWithChildren<{
   intervals: TimeInterval[],
@@ -23,7 +17,7 @@ export const TimeChooseModal = (props: Props) => {
         <div className="intervals-container">
           {props.intervals.map((interval, index) => (
             <div key={index} className="interval-box">
-              {interval.dayOfWeek} {interval.startTime} - {interval.endTime}
+              {DayOfWeek.toString(interval.getStartDayOfWeek())} {interval.getStartTime().getPrettyHHmm()} - {interval.getEndTime().getPrettyHHmm()}
               <Button>Выбрать</Button>
             </div>
           ))}

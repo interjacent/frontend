@@ -7,6 +7,10 @@ export class Time {
     this.minutes = minutes;
   }
 
+  public getPrettyHHmm(): string {
+    return this.getPrettyHours() + ':' + this.getPrettyMinutes()
+  }
+
   public getPrettyHours(): string {
     return this.hours.toString().padStart(2, '0')
   }

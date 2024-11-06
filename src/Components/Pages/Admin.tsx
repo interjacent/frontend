@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import "./Admin.css";
+import { TimeInterval } from "../Time/TimeInterval";
 import { TimeChooseModal } from "../Modal/TimeChooseModal";
 
 export const Admin = () => {
@@ -9,16 +10,8 @@ export const Admin = () => {
   const [show, setShow] = useState(false);
   const users = ["Фырфырчик", "Пырпырчик", "Мявка", "Пырчик"];
   const intervals = [
-    {
-      dayOfWeek: "Вт",
-      startTime: "14:00",
-      endTime: "15:30",
-    },
-    {
-      dayOfWeek: "Вт",
-      startTime: "14:00",
-      endTime: "15:30",
-    },
+    new TimeInterval(1730925515, 1730925915),
+    new TimeInterval(1730995515, 1731000013)
   ];
   return (
     <div className="admin-page">
