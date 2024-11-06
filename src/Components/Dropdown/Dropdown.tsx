@@ -1,31 +1,36 @@
-import Dropdown from "react-bootstrap/Dropdown";
-import { PropsWithChildren, useState} from "react";
+import { useState } from "react";
 import "./Dropdown.css";
 
-type Props = PropsWithChildren<{
+type Props = {
   initialState: string;
   dropdownItems: string[];
   handleSelect?: () => {};
   className?: string;
-}>;
-
+};
 
 export const CustomDropdown = (props: Props) => {
   const [selectedItem, setSelectedItem] = useState<string>(props.initialState);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Dropdown>
-      <Dropdown.Toggle className="dropdown-basic">
+    <div className="dropdown-container">
+      <div className="dropdown-basic" onClick={() => setOpen((open) => !open)}>
         {selectedItem}
-      </Dropdown.Toggle>
+      </div>
 
-      <Dropdown.Menu className="dropdown-basic">
+      <div className={"dropdown-menu " + (open ? "" : "hidden")}>
         {props.dropdownItems.map((item, index) => (
-          <Dropdown.Item className="dropdown-basic" key={index} onClick={() => setSelectedItem(item)}>
+          <div
+            key={index}
+            onClick={() => {
+              setSelectedItem(item);
+              setOpen(false);
+            }}
+          >
             {item}
-          </Dropdown.Item>
+          </div>
         ))}
-      </Dropdown.Menu>
-    </Dropdown>
-  )
-}
+      </div>
+    </div>
+  );
+};

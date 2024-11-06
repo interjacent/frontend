@@ -1,6 +1,30 @@
+.dropdown-container {
+  display: inline;
+  position: relative;
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+.dropdown-container::after {
+    display: inline-block;
+  content: "▼";
+  transform: scale(0.5);
+}
+
 .dropdown-basic {
-    font-family: 'Hachi Maru Pop';
-    color: var(--main-color) !important;
-    background-color: var(--secondary-color) !important;
-    border: none !important;
+  display: inline;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+}
+
+.dropdown-menu.hidden {
+    display: none;
+}
+
+.dropdown-menu > *:hover {
+    color: var(--secondary-color);
+    background-color: var(--main-color);
 }
