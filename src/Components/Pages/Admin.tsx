@@ -4,14 +4,15 @@ import { Input } from "../Input/Input";
 import "./Admin.css";
 import { TimeInterval } from "../Time/TimeInterval";
 import { TimeChooseModal } from "../Modal/TimeChooseModal";
+import {Timetable} from "../Time/Timetable";
 
 export const Admin = () => {
   const [lengthTime, setLengthTime] = useState("01:30");
   const [show, setShow] = useState(false);
   const users = ["Фырфырчик", "Пырпырчик", "Мявка", "Пырчик"];
   const intervals = [
-    new TimeInterval(1730925515, 1730925915),
-    new TimeInterval(1730995515, 1731000013)
+    new TimeInterval(1730875515, 1730915915),
+    new TimeInterval(1730805515, 1730825515)
   ];
   return (
     <div className="admin-page">
@@ -37,6 +38,7 @@ export const Admin = () => {
           <Button>Организовать</Button>
           <div>
             <div>Удобное для всех время</div>
+            <Timetable intervals={intervals}/>
           </div>
         </div>
       </div>
