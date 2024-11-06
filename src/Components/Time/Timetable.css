@@ -1,0 +1,21 @@
+.day-of-week-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.day-of-week-box {
+    border: 2px solid var(--main-color);
+    height: 300px;
+    width: 200px;
+    position: relative;
+    border-radius: 8px
+}
+
+.interval {
+    position: absolute;
+    width: 90%;
+    margin-left: 5%;
+    background-color: #34C759BF;
+    border-radius: 8px
+}
