@@ -15,6 +15,10 @@
   font-size: var(--font-size-normal);
 }
 
+.modal.hidden {
+    display: none;
+}
+
 .modal-header {
     margin-bottom: 1em;
 }
