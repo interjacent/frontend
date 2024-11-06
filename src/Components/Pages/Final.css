@@ -1,0 +1,21 @@
+.final-component {
+    font-family: 'Hachi Maru Pop' !important;
+    height: 100%;
+    color: var(--main-color);
+    text-align: center;
+}
+
+.final-message {
+    color: black;
+    border: 2px solid #ff9500;
+    border-radius: var(--border-radius-main);
+    margin: 200px auto;
+    padding: 50px;
+    height: 30%;
+    width: 40%;
+    font-size: var(--font-size-normal);
+}
+
+.final-good-luck {
+    color: var(--main-color);
+}

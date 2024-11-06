@@ -1,0 +1,6 @@
+.dropdown-basic {
+    font-family: 'Hachi Maru Pop';
+    color: var(--main-color) !important;
+    background-color: var(--secondary-color) !important;
+    border: none !important;
+}

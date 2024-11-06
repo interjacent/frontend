@@ -1,0 +1,24 @@
+.modal {
+    font-family: 'Hachi Maru Pop';
+    color: var(--main-color) !important;
+    border: none !important;
+}
+
+.intervals-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.interval-box {
+    padding: 10px;
+    border: 2px solid #ff9500;
+    border-radius: var(--border-radius-secondary);
+    color: #333;
+    min-width: 225px;
+    min-height: 150px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
