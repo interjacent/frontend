@@ -7,6 +7,7 @@ type Props = {
   placeholder?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   className?: string;
+  readOnly?: boolean;
 };
 
 export const Input = (props: Props) => (
@@ -16,5 +17,6 @@ export const Input = (props: Props) => (
     placeholder={props.placeholder}
     onChange={props.onChange}
     className={"input " + (props.className ?? "")}
+    readOnly={props.readOnly}
   />
 );

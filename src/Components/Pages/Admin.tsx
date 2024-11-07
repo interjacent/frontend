@@ -20,12 +20,12 @@ export const Admin = () => {
       <div className="panels">
         <div className="left">
           <div>Ссылка для голосования</div>
-          <Input value="https://interjacent/aabbccdd" />
+          <Input value="https://interjacent/aabbccdd" readOnly />
           <div>Участники</div>
           <div>
             <ul>
               {users.map((user) => (
-                <li>{user}</li>
+                <li key={user}>{user}</li>
               ))}
             </ul>
           </div>
