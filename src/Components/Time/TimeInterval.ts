@@ -38,6 +38,54 @@ export class TimeInterval {
     return new TimeInterval(startTimestamp, endTimestamp);
   }
 
+  public static subtractUnavailableInterval(
+    availableIntervals: TimeInterval[],
+    unavailableInterval: TimeInterval
+  ): TimeInterval[] {
+    const result: TimeInterval[] = [];
+
+    for (const interval of availableIntervals) {
+      if (interval.endTime <= unavailableInterval.startTime || interval.startTime >= unavailableInterval.endTime) {
+        result.push(interval);
+      } else {
+        if (interval.startTime < unavailableInterval.startTime) {
+          result.push(new TimeInterval(interval.startTime, unavailableInterval.startTime));
+        }
+
+        if (interval.endTime > unavailableInterval.endTime) {
+          result.push(new TimeInterval(unavailableInterval.endTime, interval.endTime));
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public static addAvailableInterval(
+    availableIntervals: TimeInterval[],
+    newInterval: TimeInterval
+  ): TimeInterval[] {
+    const result: TimeInterval[] = [];
+    let mergedInterval = newInterval;
+
+    for (const interval of availableIntervals) {
+      if (interval.endTime >= mergedInterval.startTime && interval.startTime <= mergedInterval.endTime) {
+        mergedInterval = new TimeInterval(
+          Math.min(mergedInterval.startTime, interval.startTime),
+          Math.max(mergedInterval.endTime, interval.endTime)
+        );
+      } else {
+        result.push(interval);
+      }
+    }
+
+    result.push(mergedInterval);
+    result.sort((a, b) => a.startTime - b.startTime);
+
+    return result;
+  }
+
+
   public getStartDayOfWeek(): DayOfWeek {
     return this.getDayOfWeek(this.startTime);
   }

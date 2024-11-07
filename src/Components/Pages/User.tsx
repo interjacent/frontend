@@ -98,12 +98,21 @@ export const User = () => {
           <input onChange={(e) => setFromTime(e.target.value)} className="time-input" type="time" /> до{" "}
           <input onChange={(e) => setToTime(e.target.value)} className="time-input" type="time" /> я
           <Button onClick={() => {
-            const newIntervals = [...intervals, TimeInterval.createFromString(fromTime, toTime, dayOfWeek)]
-            setIntervals(newIntervals)
-            sendIntervals(newIntervals)
+            const availableInterval = TimeInterval.createFromString(fromTime, toTime, dayOfWeek)
+            const updateInterval = TimeInterval.addAvailableInterval(intervals, availableInterval)
+
+            setIntervals(updateInterval)
+            sendIntervals(updateInterval)
           }
           }>могу</Button>
-          <Button>не могу</Button>
+          <Button onClick={() => {
+            const unavailableInterval = TimeInterval.createFromString(fromTime, toTime, dayOfWeek)
+            const updatedIntervals = TimeInterval.subtractUnavailableInterval(intervals, unavailableInterval)
+
+            setIntervals(updatedIntervals)
+            sendIntervals(updatedIntervals)
+          }}
+          >не могу</Button>
         </div>
         <div className="text-line">
           <Button>могу всегда</Button>
