@@ -60,7 +60,7 @@ export const Admin = () => {
           <div>Ссылка для голосования</div>
           <Input
             value={new URL(
-              `/polls/${publicPollId}`,
+              `/poll/${publicPollId}`,
               window.location.toString()
             ).toString()}
             readOnly
