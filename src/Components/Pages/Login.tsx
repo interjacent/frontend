@@ -1,18 +1,38 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
-import "./Login.css";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
+import { v4 as uuidv4 } from "uuid";
+import "./Login.css";
+import { useParams } from "react-router";
+import { createAxios } from "../../createAxios";
 
-export const Login = () => {
+type Props = {
+  onLogin: (userId: string) => unknown
+}
+
+export const Login = (props: Props) => {
+  const params = useParams();
   const [name, setName] = useState<string>("");
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setName(event.target.value);
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    console.log(name);
+    if (name.length <= 4) {
+      return;
+    }
+    const uuid = uuidv4();
+    const pollId = params.publicPollId!;
+    console.log(name, uuid, pollId);
+    const axios = createAxios();
+    await axios.post(`/polls/${pollId}/join`, {
+      userId: uuid,
+      userName: name,
+    });
+    localStorage.setItem(pollId, uuid);
+    props.onLogin(uuid);
   };
 
   return (
