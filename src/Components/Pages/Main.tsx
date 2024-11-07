@@ -64,8 +64,8 @@ export const Main = () => {
     const response = await axios.post(`/polls`, {
       days: intervals,
     });
-    const { publicId, privateId } = response.data;
-    navigate(`/poll/${publicId}/${privateId}`);
+    const { pollId, adminToken } = response.data;
+    navigate(`/poll/${pollId}/${adminToken}`);
   };
 
   return (
