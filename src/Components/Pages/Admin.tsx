@@ -45,7 +45,7 @@ export const Admin = () => {
 
   const handleFinish = async (int: TimeInterval) => {
     const axios = createAxios();
-    await axios.post(`/polls/${privatePollId}/finish`, {
+    await axios.post(`/polls/${publicPollId}/finish`, {
       adminToken: privatePollId,
       start: int.startTime,
       end: int.endTime,
