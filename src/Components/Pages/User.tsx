@@ -25,10 +25,10 @@ export const User = () => {
   const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(DayOfWeek.MONDAY)
 
   useEffect(() => {
-    if (userId != "") {
+    if (userId !== "") {
       getIntervals();
     }
-  }, []);
+  }, [userId]);
 
   const getIntervals = async () => {
     const axios = createAxios();
