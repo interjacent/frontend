@@ -4,6 +4,18 @@
   justify-content: center;
 }
 
+.timetable {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.time-border-timetable {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .day-of-week-box {
   border: 2px solid var(--main-color);
   height: 300px;
