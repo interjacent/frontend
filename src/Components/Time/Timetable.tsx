@@ -52,7 +52,7 @@ export const Timetable = (props: Props) => {
       <div className="day-of-week-container">
         {daysOfWeekIndexed.map((day, index) => {
 
-          if (groupedIntervals[day]?.length != undefined) {
+          if (groupedIntervals[day]?.length !== undefined) {
             const intervals = groupedIntervals[day]
 
             return (
@@ -72,6 +72,7 @@ export const Timetable = (props: Props) => {
               </div>
             )
           }
+          return null;
         })
         }
       </div>
