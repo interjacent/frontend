@@ -7,6 +7,8 @@ import { TimeChooseModal } from "../Modal/TimeChooseModal";
 import { Timetable } from "../Time/Timetable";
 import { createAxios } from "../../createAxios";
 import { useParams } from "react-router";
+import { Final } from "./Final";
+import { DayOfWeek } from "../Time/DayOfWeek";
 
 export const Admin = () => {
   const params = useParams();
@@ -16,6 +18,7 @@ export const Admin = () => {
   const [users, setUsers] = useState<string[]>([]);
   const [intervals, setIntervals] = useState<TimeInterval[]>([]);
   const [availables, setAvailables] = useState<TimeInterval[]>([]);
+  const [result, setResult] = useState<TimeInterval | null>(null);
 
   useEffect(() => {
     const axios = createAxios();
@@ -26,6 +29,7 @@ export const Admin = () => {
       setIntervals(
         data.availables.map((int: any) => new TimeInterval(int.start, int.end))
       );
+      setResult(data.result);
     };
 
     fetchData();
@@ -50,7 +54,18 @@ export const Admin = () => {
       start: int.startTime,
       end: int.endTime,
     });
+    setResult(int);
   };
+
+  if (result) {
+    return (
+      <Final
+        dayOfWeek={DayOfWeek.toString(result.getStartDayOfWeek())}
+        startTime={result.getStartTime().getPrettyHHmm()}
+        endTime={result.getEndTime().getPrettyHHmm()}
+      />
+    );
+  }
 
   return (
     <div className="admin-page">

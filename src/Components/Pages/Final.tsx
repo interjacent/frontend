@@ -9,7 +9,7 @@ type Props = PropsWithChildren<{
 
 export const Final = (props: Props) => (
   <div className="final-component">
-    <h1 className="username">Фырфырчик #a1b24c</h1>
+    <h1 className="username">Опрос закрыт</h1>
 
     <div className="final-message">
       <div>Встреча состоится</div>
