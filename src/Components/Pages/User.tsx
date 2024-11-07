@@ -3,25 +3,29 @@ import { Login } from "./Login";
 import { Button } from "../Button/Button";
 import { Dropdown } from "../Dropdown/Dropdown";
 import "./User.css";
-import {useState} from "react";
+import { useState } from "react";
+import { useParams } from "react-router";
 import {TimeInterval} from "../Time/TimeInterval";
 import {DayOfWeek} from "../Time/DayOfWeek";
 import { Timetable } from "../Time/Timetable";
 
 export const User = () => {
-  const loggedIn = true;
+  const params = useParams();
+  const pollId = params.publicPollId!;
+  const [userId, setUserId] = useState(
+    () => localStorage.getItem(pollId) ?? ""
+  );
   const closed = false;
 
   const daysOfWeek = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
-
   const [intervals, setIntervals] = useState<TimeInterval[]>([]);
   const [fromTime, setFromTime] = useState("")
   const [toTime, setToTime] = useState("")
   const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(DayOfWeek.MONDAY)
 
 
-  if (!loggedIn) {
-    return <Login />;
+  if (userId === "") {
+    return <Login onLogin={setUserId} />;
   }
 
   if (closed) {
