@@ -20,7 +20,7 @@ export const Login = (props: Props) => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    if (name.length <= 4) {
+    if (name.length < 4) {
       return;
     }
     const uuid = uuidv4();
