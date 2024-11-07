@@ -16,7 +16,9 @@ export const Admin = () => {
   const [lengthTime, setLengthTime] = useState("01:30");
   const [show, setShow] = useState(false);
   const [users, setUsers] = useState<string[]>([]);
-  const [intervals, setIntervals] = useState<TimeInterval[]>([]);
+  const [intervals, setIntervals] = useState<TimeInterval[]>([
+    new TimeInterval(1730985447, 1730996447)
+  ]);
   const [availables, setAvailables] = useState<TimeInterval[]>([]);
   const [result, setResult] = useState<TimeInterval | null>(null);
 

@@ -59,15 +59,22 @@ export const Timetable = (props: Props) => {
               <div key={day}>
                 <p>{DayOfWeek.toString(daysOfWeekIndexed[index])}</p>
                 <div className="day-of-week-box">
-                  {
-                    intervals?.map(interval => {
-                      const {top, height} = calculatePositionAndHeight(interval.startTime, interval.endTime);
-                      return (
-                        <div key={interval.startTime} className="interval" style={{top: top, height: height}}>
-                        </div>
-                      )
-                    })
-                  }
+                  {intervals?.map((interval) => {
+                    const { top, height } = calculatePositionAndHeight(
+                      interval.startTime,
+                      interval.endTime
+                    );
+                    return (
+                      <div
+                        key={interval.startTime}
+                        className="interval"
+                        style={{ top: top, height: height }}
+                      >
+                        {interval.getStartTime().getPrettyHHmm()}-
+                        {interval.getEndTime().getPrettyHHmm()}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             );
