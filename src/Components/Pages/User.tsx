@@ -3,15 +3,21 @@ import { Login } from "./Login";
 import { Button } from "../Button/Button";
 import { Dropdown } from "../Dropdown/Dropdown";
 import "./User.css";
+import { useState } from "react";
+import { useParams } from "react-router";
 
 export const User = () => {
-  const loggedIn = true;
+  const params = useParams();
+  const pollId = params.publicPollId!;
+  const [userId, setUserId] = useState(
+    () => localStorage.getItem(pollId) ?? ""
+  );
   const closed = false;
 
   const daysOfWeek = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
-  if (!loggedIn) {
-    return <Login />;
+  if (userId === "") {
+    return <Login onLogin={setUserId} />;
   }
 
   if (closed) {
@@ -24,12 +30,7 @@ export const User = () => {
 
       <div className="choose-text">
         <div className="text-line">
-          В{" "}
-          <Dropdown
-            initialState="пн"
-            dropdownItems={daysOfWeek}
-          />{" "}
-          с
+          В <Dropdown initialState="пн" dropdownItems={daysOfWeek} /> с
           <input className="time-input" type="time" /> до{" "}
           <input className="time-input" type="time" /> я<Button>могу</Button>
           <Button>не могу</Button>
