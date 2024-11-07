@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import { createAxios } from "../../createAxios";
 
 type Props = {
-  onLogin: (userId: string) => unknown
+  onLogin: (userId: string, username: string) => unknown
 }
 
 export const Login = (props: Props) => {
@@ -32,7 +32,7 @@ export const Login = (props: Props) => {
       userName: name,
     });
     localStorage.setItem(pollId, uuid);
-    props.onLogin(uuid);
+    props.onLogin(uuid, name);
   };
 
   return (

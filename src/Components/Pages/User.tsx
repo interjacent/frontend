@@ -16,6 +16,7 @@ export const User = () => {
   const [userId, setUserId] = useState(
     () => localStorage.getItem(pollId) ?? ""
   );
+  const [username, setUsername] = useState("")
 
   const daysOfWeek = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
   const [intervals, setIntervals] = useState<TimeInterval[]>([]);
@@ -40,6 +41,7 @@ export const User = () => {
       return new TimeInterval(interval.start, interval.end);
     })
 
+    setUsername(response.data["userName"])
     setIntervals(parsedIntervals)
   }
 
@@ -69,7 +71,11 @@ export const User = () => {
   }
 
   if (userId === "") {
-    return <Login onLogin={setUserId} />;
+    return <Login onLogin={ (userId, username) => {
+      setUserId(userId);
+      setUsername(username)
+    }
+    } />;
   }
 
   if (!active) {
@@ -78,7 +84,7 @@ export const User = () => {
 
   return (
     <div className="user-component text-center">
-      <h1 className="username">Фырфырчик #a1b24c</h1>
+      <h1 className="username">{username}</h1>
 
       <div className="choose-text">
         <div className="text-line">
