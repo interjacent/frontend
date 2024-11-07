@@ -21,16 +21,15 @@ export class TimeInterval {
     this.endTime = endTime;
   }
 
+  public static UNKNOWN = new TimeInterval(0, 0)
+
   // strings in format HH:mm
-  public static createFromString(startTimeStr: string, endTimeStr: string, dayOfWeek: DayOfWeek): TimeInterval {
+  public static createFromString(startTime: Time, endTime: Time, dayOfWeek: DayOfWeek): TimeInterval {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
 
     const daysUntilTarget = (dayOfWeek - currentDayOfWeek + 7) % 7;
     today.setDate(today.getDate() + daysUntilTarget);
-
-    const startTime = Time.fromString(startTimeStr);
-    const endTime = Time.fromString(endTimeStr);
 
     const startTimestamp = startTime.toUnixTimestamp(new Date(today));
     const endTimestamp = endTime.toUnixTimestamp(new Date(today));

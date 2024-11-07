@@ -19,6 +19,7 @@ export const Admin = () => {
   const [intervals, setIntervals] = useState<TimeInterval[]>([]);
   const [availables, setAvailables] = useState<TimeInterval[]>([]);
   const [result, setResult] = useState<TimeInterval | null>(null);
+  const [timeBorderFirstDay, setTimeBorderFirstDay] = useState<TimeInterval | null>(null)
 
   useEffect(() => {
     const axios = createAxios();
@@ -26,6 +27,9 @@ export const Admin = () => {
       const response = await axios.get(`/polls/${publicPollId}`);
       const data = response.data;
       setUsers(data.users.map((user: any) => user.userName));
+      if (data.days.length > 0) {
+        setTimeBorderFirstDay( new TimeInterval(data.days[0].start, data.days[0].end))
+      }
       setIntervals(
         data.availables.map((int: any) => new TimeInterval(int.start, int.end))
       );
@@ -118,7 +122,7 @@ export const Admin = () => {
           <Button onClick={handleSelect}>Организовать</Button>
           <div>
             <div>Удобное для всех время</div>
-            <Timetable intervals={intervals} />
+            {timeBorderFirstDay && <Timetable intervals={intervals} timeBorder={timeBorderFirstDay} /> }
           </div>
         </div>
       </div>

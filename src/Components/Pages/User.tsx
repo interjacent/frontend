@@ -9,6 +9,8 @@ import {TimeInterval} from "../Time/TimeInterval";
 import {DayOfWeek} from "../Time/DayOfWeek";
 import { Timetable } from "../Time/Timetable";
 import {createAxios} from "../../createAxios";
+import {Simulate} from "react-dom/test-utils";
+import {Time} from "../Time/Time";
 
 export const User = () => {
   const params = useParams();
@@ -18,14 +20,15 @@ export const User = () => {
   );
   const [username, setUsername] = useState("")
 
-  const daysOfWeek = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
+  const [daysOfWeek, setDaysOfWeek] = useState<DayOfWeek[]>([])
   const [intervals, setIntervals] = useState<TimeInterval[]>([]);
-  const [fromTime, setFromTime] = useState("")
-  const [toTime, setToTime] = useState("")
-  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(DayOfWeek.MONDAY)
+  const [fromTime, setFromTime] = useState<Time | null>(null)
+  const [toTime, setToTime] = useState<Time | null>(null)
+  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek | null>()
+  const [timeBorder, setTimeBorder] = useState<TimeInterval[]>([])
 
   const [active, setActive] = useState(true)
-  const [closedPollInterval, setClosedPollInterval] = useState<TimeInterval>(new TimeInterval(0, 0))
+  const [closedPollInterval, setClosedPollInterval] = useState<TimeInterval>(TimeInterval.UNKNOWN)
 
   useEffect(() => {
     if (userId !== "") {
@@ -48,6 +51,18 @@ export const User = () => {
   const getPollInfo = async () => {
     const axios = createAxios();
     const response = await axios.get(`polls/${pollId}`)
+
+    const localAvailableDaysOfWeek: DayOfWeek[] = []
+    const localTimeBorder: TimeInterval[] = []
+    response.data["days"].map((day: any) => {
+      const dayInterval = new TimeInterval(day["start"], day["end"])
+      const dayOfWeek = dayInterval.getStartDayOfWeek()
+
+      localAvailableDaysOfWeek.push(dayOfWeek)
+      localTimeBorder.push(dayInterval)
+    })
+    setDaysOfWeek(localAvailableDaysOfWeek.sort())
+    setTimeBorder(localTimeBorder)
 
     console.log(response.data)
     if (response.data["active"] == false) {
@@ -89,16 +104,34 @@ export const User = () => {
       <div className="choose-text">
         <div className="text-line">
           В{" "}
-          <Dropdown
-            initialState="пн"
-            dropdownItems={daysOfWeek}
+          { daysOfWeek.length > 0 && <Dropdown
+            initialState={DayOfWeek.toString(daysOfWeek[0])}
+            dropdownItems={daysOfWeek.map((day) => DayOfWeek.toString(day))}
             handleSelect={(item) => { setDayOfWeek(DayOfWeek.parse(item)) }  }
-          />{" "}
+          />}{" "}
           с
-          <input onChange={(e) => setFromTime(e.target.value)} className="time-input" type="time" /> до{" "}
-          <input onChange={(e) => setToTime(e.target.value)} className="time-input" type="time" /> я
+          <input onChange={(e) => setFromTime(Time.fromString(e.target.value))} className="time-input" type="time" /> до{" "}
+          <input onChange={(e) => setToTime(Time.fromString(e.target.value))} className="time-input" type="time" /> я
           <Button onClick={() => {
-            const availableInterval = TimeInterval.createFromString(fromTime, toTime, dayOfWeek)
+            if (fromTime !== null && fromTime.hours * 60 +  fromTime.minutes < timeBorder[0].getStartTime().hours * 60 + timeBorder[0].getStartTime().minutes) {
+              alert("Нужно выбрать свободное время в рамках встречи")
+              return;
+            }
+            if (toTime !== null && toTime.hours * 60 +  toTime.minutes > timeBorder[0].getEndTime().hours * 60 + timeBorder[0].getEndTime().minutes) {
+              alert("Нужно выбрать свободное время в рамках встречи")
+              return;
+            }
+            if (fromTime !== null && toTime !== null && fromTime.hours * 60 + fromTime.minutes > toTime.hours * 60 +  toTime.minutes) {
+              alert("Время конца должно быть позже времени начала")
+              return;
+            }
+
+
+            const availableInterval = TimeInterval.createFromString(
+              fromTime === null ? timeBorder[0].getStartTime() : fromTime,
+              toTime === null ? timeBorder[0].getEndTime() : toTime,
+              dayOfWeek === null || dayOfWeek === undefined ? daysOfWeek[0] : dayOfWeek
+            )
             const updateInterval = TimeInterval.addAvailableInterval(intervals, availableInterval)
 
             setIntervals(updateInterval)
@@ -106,7 +139,11 @@ export const User = () => {
           }
           }>могу</Button>
           <Button onClick={() => {
-            const unavailableInterval = TimeInterval.createFromString(fromTime, toTime, dayOfWeek)
+            const unavailableInterval = TimeInterval.createFromString(
+              fromTime === null ? timeBorder[0].getStartTime() : fromTime,
+              toTime === null ? timeBorder[0].getEndTime() : toTime,
+              dayOfWeek === null || dayOfWeek === undefined ? daysOfWeek[0] : dayOfWeek
+            )
             const updatedIntervals = TimeInterval.subtractUnavailableInterval(intervals, unavailableInterval)
 
             setIntervals(updatedIntervals)
@@ -115,14 +152,28 @@ export const User = () => {
           >не могу</Button>
         </div>
         <div className="text-line">
-          <Button>могу всегда</Button>
-          <Button>не могу всегда</Button>
+          <Button onClick={() => {
+            setIntervals(timeBorder)
+            sendIntervals(timeBorder)
+          }}
+
+          >могу всегда</Button>
+          <Button onClick={() => {
+            let updatedIntervals = [...intervals]
+            timeBorder.forEach((timeBorder) => {
+              updatedIntervals = TimeInterval.subtractUnavailableInterval(updatedIntervals, timeBorder)
+            })
+
+            setIntervals(updatedIntervals)
+            sendIntervals(updatedIntervals)
+          }}
+          >не могу всегда</Button>
         </div>
       </div>
 
       <h4>Удобное для вас время:</h4>
 
-      <Timetable intervals={intervals}></Timetable>
+      <Timetable intervals={intervals} timeBorder={timeBorder[0]}></Timetable>
     </div>
   );
 };

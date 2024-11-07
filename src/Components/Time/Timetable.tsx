@@ -5,6 +5,7 @@ import { TimeInterval } from "./TimeInterval";
 
 type Props = PropsWithChildren<{
   intervals: TimeInterval[];
+  timeBorder: TimeInterval
 }>;
 
 const daysOfWeekIndexed = [
@@ -39,18 +40,22 @@ export const Timetable = (props: Props) => {
   }
 
   function calculatePositionAndHeight(startTime: number, endTime: number) {
-    const dayStart = new Date(startTime * 1000).setHours(0, 0, 0, 0) / 1000;
     const secondsInDay = 86400;
+    const secondsInPeriod =  (props.timeBorder.endTime - props.timeBorder.startTime);
 
-    const startOffset = ((startTime - dayStart) / secondsInDay) * 100;
-    const duration = ((endTime - startTime) / secondsInDay) * 100;
+    const duration = ((endTime - startTime) / secondsInPeriod) * 100;
+    const startOffset = ((startTime - ((Math.floor((startTime - props.timeBorder.startTime) / secondsInDay)) * secondsInDay) - props.timeBorder.startTime) / secondsInPeriod) * 100;
 
     return { top: `${startOffset}%`, height: `${duration}%` };
   }
 
   return (
     <div className="timetable">
-      <div className="day-of-week-container">
+      { Object.keys(groupedIntervals).length !== 0 && props.timeBorder !== undefined && <div className="time-border-timetable">
+        <div style={{ marginTop: "50px" }}>{props.timeBorder.getStartTime().getPrettyHHmm()}</div>
+        <div>{props.timeBorder.getEndTime().getPrettyHHmm()}</div>
+      </div> }
+      { props.timeBorder !== undefined && <div className="day-of-week-container">
         {daysOfWeekIndexed.map((day, index) => {
           if (groupedIntervals[day]?.length !== undefined) {
             const intervals = groupedIntervals[day];
@@ -81,7 +86,7 @@ export const Timetable = (props: Props) => {
           }
           return null;
         })}
-      </div>
+      </div> }
     </div>
   );
 };
