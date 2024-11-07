@@ -16,7 +16,6 @@ export const User = () => {
   const [userId, setUserId] = useState(
     () => localStorage.getItem(pollId) ?? ""
   );
-  const closed = false;
 
   const daysOfWeek = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
   const [intervals, setIntervals] = useState<TimeInterval[]>([]);
@@ -24,9 +23,13 @@ export const User = () => {
   const [toTime, setToTime] = useState("")
   const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(DayOfWeek.MONDAY)
 
+  const [active, setActive] = useState(true)
+  const [closedPollInterval, setClosedPollInterval] = useState<TimeInterval>(new TimeInterval(0, 0))
+
   useEffect(() => {
     if (userId !== "") {
       getIntervals();
+      getPollInfo();
     }
   }, [userId]);
 
@@ -38,6 +41,17 @@ export const User = () => {
     })
 
     setIntervals(parsedIntervals)
+  }
+
+  const getPollInfo = async () => {
+    const axios = createAxios();
+    const response = await axios.get(`polls/${pollId}`)
+
+    console.log(response.data)
+    if (response.data["active"] == false) {
+      setActive(false)
+      setClosedPollInterval(new TimeInterval(response.data["result"]["start"], response.data["result"]["end"]))
+    }
   }
 
   const sendIntervals = async (newIntervals: TimeInterval[]) => {
@@ -58,8 +72,8 @@ export const User = () => {
     return <Login onLogin={setUserId} />;
   }
 
-  if (closed) {
-    return <Final dayOfWeek="вт" startTime="14:00" endTime="15:30" />;
+  if (!active) {
+    return <Final dayOfWeek="вт" startTime={closedPollInterval?.getStartTime().getPrettyHHmm()} endTime={closedPollInterval?.getEndTime().getPrettyHHmm()} />;
   }
 
   return (
