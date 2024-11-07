@@ -29,7 +29,9 @@ export const Admin = () => {
       setIntervals(
         data.availables.map((int: any) => new TimeInterval(int.start, int.end))
       );
-      setResult(new TimeInterval(data.result.start, data.result.end));
+      if(data.result) {
+        setResult(new TimeInterval(data.result.start, data.result.end));
+      }
     };
 
     fetchData();
