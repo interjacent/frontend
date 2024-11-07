@@ -4,7 +4,7 @@ import "./Dropdown.css";
 type Props = {
   initialState: string;
   dropdownItems: string[];
-  handleSelect?: () => {};
+  handleSelect: (item: string) => void;
   className?: string;
 };
 
@@ -25,6 +25,7 @@ export const Dropdown = (props: Props) => {
             onClick={() => {
               setSelectedItem(item);
               setOpen(false);
+              props.handleSelect(item);
             }}
           >
             {item}

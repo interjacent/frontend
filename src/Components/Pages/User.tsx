@@ -5,6 +5,9 @@ import { Dropdown } from "../Dropdown/Dropdown";
 import "./User.css";
 import { useState } from "react";
 import { useParams } from "react-router";
+import {TimeInterval} from "../Time/TimeInterval";
+import {DayOfWeek} from "../Time/DayOfWeek";
+import { Timetable } from "../Time/Timetable";
 
 export const User = () => {
   const params = useParams();
@@ -15,6 +18,11 @@ export const User = () => {
   const closed = false;
 
   const daysOfWeek = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
+  const [intervals, setIntervals] = useState<TimeInterval[]>([]);
+  const [fromTime, setFromTime] = useState("")
+  const [toTime, setToTime] = useState("")
+  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(DayOfWeek.MONDAY)
+
 
   if (userId === "") {
     return <Login onLogin={setUserId} />;
@@ -30,9 +38,21 @@ export const User = () => {
 
       <div className="choose-text">
         <div className="text-line">
-          В <Dropdown initialState="пн" dropdownItems={daysOfWeek} /> с
-          <input className="time-input" type="time" /> до{" "}
-          <input className="time-input" type="time" /> я<Button>могу</Button>
+          В{" "}
+          <Dropdown
+            initialState="пн"
+            dropdownItems={daysOfWeek}
+            handleSelect={(item) => { setDayOfWeek(DayOfWeek.parse(item)) }  }
+          />{" "}
+          с
+          <input onChange={(e) => setFromTime(e.target.value)} className="time-input" type="time" /> до{" "}
+          <input onChange={(e) => setToTime(e.target.value)} className="time-input" type="time" /> я
+          <Button onClick={() => {
+            setIntervals([...intervals, TimeInterval.createFromString(fromTime, toTime, dayOfWeek)])
+            console.log(TimeInterval.createFromString(fromTime, toTime, dayOfWeek))
+            console.log(dayOfWeek.toString())
+          }
+          }>могу</Button>
           <Button>не могу</Button>
         </div>
         <div className="text-line">
@@ -42,6 +62,8 @@ export const User = () => {
       </div>
 
       <h4>Удобное для вас время:</h4>
+
+      <Timetable intervals={intervals}></Timetable>
     </div>
   );
 };
