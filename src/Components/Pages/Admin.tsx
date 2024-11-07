@@ -42,8 +42,16 @@ export const Admin = () => {
     const lengthSeconds = (hours * 60 + minutes) * 60;
     const availables = intervals
       .filter((int) => int.endTime - int.startTime >= lengthSeconds)
-      .map(
-        (int) => new TimeInterval(int.startTime, int.startTime + lengthSeconds)
+      .flatMap((int) =>
+        new Array(Math.floor((int.endTime - int.startTime) / lengthSeconds))
+          .fill(null)
+          .map(
+            (_, i) =>
+              new TimeInterval(
+                int.startTime + i * lengthSeconds,
+                int.startTime + (i + 1) * lengthSeconds
+              )
+          )
       );
     setAvailables(availables);
     setShow(true);
