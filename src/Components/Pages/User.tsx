@@ -49,7 +49,7 @@ export const User = () => {
       }
     })
 
-    const response = await axios.post(`polls/${pollId}/users/${userId}/intervals`, intervalsForRequest);
+    await axios.post(`polls/${pollId}/users/${userId}/intervals`, intervalsForRequest);
   }
 
   if (userId === "") {

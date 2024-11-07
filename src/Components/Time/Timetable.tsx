@@ -1,11 +1,10 @@
-import {PropsWithChildren} from "react";
-import './Timetable.css';
-import {DayOfWeek} from "./DayOfWeek";
-import {TimeInterval} from "./TimeInterval";
-
+import { PropsWithChildren } from "react";
+import "./Timetable.css";
+import { DayOfWeek } from "./DayOfWeek";
+import { TimeInterval } from "./TimeInterval";
 
 type Props = PropsWithChildren<{
-  intervals: TimeInterval[],
+  intervals: TimeInterval[];
 }>;
 
 const daysOfWeekIndexed = [
@@ -15,16 +14,18 @@ const daysOfWeekIndexed = [
   DayOfWeek.WEDNESDAY,
   DayOfWeek.THURSDAY,
   DayOfWeek.FRIDAY,
-  DayOfWeek.SATURDAY
+  DayOfWeek.SATURDAY,
 ];
 
 export const Timetable = (props: Props) => {
-  const groupedIntervals = groupIntervalsByDayOfWeek(props.intervals)
+  const groupedIntervals = groupIntervalsByDayOfWeek(props.intervals);
 
-  function groupIntervalsByDayOfWeek(intervals: TimeInterval[]): { [key in DayOfWeek]?: TimeInterval[] } {
+  function groupIntervalsByDayOfWeek(intervals: TimeInterval[]): {
+    [key in DayOfWeek]?: TimeInterval[];
+  } {
     const groupedIntervals: { [key in DayOfWeek]?: TimeInterval[] } = {};
 
-    intervals.forEach(interval => {
+    intervals.forEach((interval) => {
       const dayOfWeek = interval.getStartDayOfWeek() as DayOfWeek;
 
       if (!groupedIntervals[dayOfWeek]) {
@@ -44,19 +45,18 @@ export const Timetable = (props: Props) => {
     const startOffset = ((startTime - dayStart) / secondsInDay) * 100;
     const duration = ((endTime - startTime) / secondsInDay) * 100;
 
-    return {top: `${startOffset}%`, height: `${duration}%`};
+    return { top: `${startOffset}%`, height: `${duration}%` };
   }
 
   return (
     <div className="timetable">
       <div className="day-of-week-container">
         {daysOfWeekIndexed.map((day, index) => {
-
           if (groupedIntervals[day]?.length !== undefined) {
-            const intervals = groupedIntervals[day]
+            const intervals = groupedIntervals[day];
 
             return (
-              <div key={index}>
+              <div key={day}>
                 <p>{DayOfWeek.toString(daysOfWeekIndexed[index])}</p>
                 <div className="day-of-week-box">
                   {
@@ -70,12 +70,11 @@ export const Timetable = (props: Props) => {
                   }
                 </div>
               </div>
-            )
+            );
           }
           return null;
-        })
-        }
+        })}
       </div>
     </div>
-  )
-}
+  );
+};
