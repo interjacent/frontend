@@ -56,14 +56,14 @@ export const Timetable = (props: Props) => {
             const intervals = groupedIntervals[day]
 
             return (
-              <div>
+              <div key={index}>
                 <p>{DayOfWeek.toString(daysOfWeekIndexed[index])}</p>
-                <div key={index} className="day-of-week-box">
+                <div className="day-of-week-box">
                   {
                     intervals?.map(interval => {
                       const {top, height} = calculatePositionAndHeight(interval.startTime, interval.endTime);
                       return (
-                        <div className="interval" style={{top: top, height: height}}>
+                        <div key={interval.startTime} className="interval" style={{top: top, height: height}}>
                         </div>
                       )
                     })

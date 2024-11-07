@@ -3,11 +3,12 @@ import { Login } from "./Login";
 import { Button } from "../Button/Button";
 import { Dropdown } from "../Dropdown/Dropdown";
 import "./User.css";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useParams } from "react-router";
 import {TimeInterval} from "../Time/TimeInterval";
 import {DayOfWeek} from "../Time/DayOfWeek";
 import { Timetable } from "../Time/Timetable";
+import {createAxios} from "../../createAxios";
 
 export const User = () => {
   const params = useParams();
@@ -23,6 +24,33 @@ export const User = () => {
   const [toTime, setToTime] = useState("")
   const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(DayOfWeek.MONDAY)
 
+  useEffect(() => {
+    getIntervals();
+  }, []);
+
+  const getIntervals = async () => {
+    const axios = createAxios();
+    const response = await axios.get(`polls/${pollId}/users/${userId}/intervals`)
+    const parsedIntervals = response.data["intervals"].map((interval: { start: number; end: number; }) => {
+      return new TimeInterval(interval.start, interval.end);
+    })
+
+    setIntervals(parsedIntervals)
+  }
+
+  const sendIntervals = async (newIntervals: TimeInterval[]) => {
+    const axios = createAxios();
+
+    const intervalsForRequest = newIntervals.map((interval) => {
+      return {
+        start: interval.startTime,
+        end: interval.endTime,
+        busy: true
+      }
+    })
+
+    const response = await axios.post(`polls/${pollId}/users/${userId}/intervals`, intervalsForRequest);
+  }
 
   if (userId === "") {
     return <Login onLogin={setUserId} />;
@@ -48,9 +76,9 @@ export const User = () => {
           <input onChange={(e) => setFromTime(e.target.value)} className="time-input" type="time" /> до{" "}
           <input onChange={(e) => setToTime(e.target.value)} className="time-input" type="time" /> я
           <Button onClick={() => {
-            setIntervals([...intervals, TimeInterval.createFromString(fromTime, toTime, dayOfWeek)])
-            console.log(TimeInterval.createFromString(fromTime, toTime, dayOfWeek))
-            console.log(dayOfWeek.toString())
+            const newIntervals = [...intervals, TimeInterval.createFromString(fromTime, toTime, dayOfWeek)]
+            setIntervals(newIntervals)
+            sendIntervals(newIntervals)
           }
           }>могу</Button>
           <Button>не могу</Button>
