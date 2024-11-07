@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, MouseEventHandler } from "react";
 import "./Input.css";
 
 type Props = {
@@ -6,6 +6,7 @@ type Props = {
   defaultValue?: string | number | readonly string[];
   placeholder?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  onClick?: MouseEventHandler<HTMLInputElement>;
   className?: string;
   readOnly?: boolean;
 };
@@ -16,6 +17,7 @@ export const Input = (props: Props) => (
     defaultValue={props.defaultValue}
     placeholder={props.placeholder}
     onChange={props.onChange}
+    onClick={props.onClick}
     className={"input " + (props.className ?? "")}
     readOnly={props.readOnly}
   />

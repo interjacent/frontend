@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import "./Admin.css";
@@ -29,7 +29,7 @@ export const Admin = () => {
       setIntervals(
         data.availables.map((int: any) => new TimeInterval(int.start, int.end))
       );
-      if(data.result) {
+      if (data.result) {
         setResult(new TimeInterval(data.result.start, data.result.end));
       }
     };
@@ -59,6 +59,12 @@ export const Admin = () => {
     setResult(int);
   };
 
+  const copyHandler: MouseEventHandler<HTMLInputElement> = (e) => {
+    e.preventDefault();
+    e.currentTarget.select();
+    document.execCommand("copy");
+  };
+
   if (result) {
     return (
       <Final
@@ -80,6 +86,7 @@ export const Admin = () => {
               `/poll/${publicPollId}`,
               window.location.toString()
             ).toString()}
+            onClick={copyHandler}
             readOnly
           />
           <div>Участники</div>
