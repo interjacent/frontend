@@ -38,6 +38,8 @@ npm start
 
 С общим описание проекта можно ознакомиться по [ссылке](https://cs-uni.ru/index.php?title=Interjacent_DDFall2024)
 
+[Слайды](https://docs.google.com/presentation/d/14M_EeeYo0_RwzjTfn3l_jxKAGqeZJJv80MuBQNnnIzk/edit?usp=sharing)
+
 ---
 
 _Отдельно с устройством Backend части можно ознакомиться в [репозитории](https://github.com/interjacent/backend)_
